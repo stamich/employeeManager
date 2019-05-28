@@ -1,0 +1,87 @@
+# common part start
+epbp:
+  application:
+    version: 1.0
+
+logging:
+  level:
+    pl.codecity.employees.EmployeeService: INFO
+
+javers:
+  mappingStyle: FIELD
+  algorithm: SIMPLE
+  prettyPrint: true
+  typeSafeValues: false
+  newObjectSnapshot: false
+  packagesToScan:
+  auditableAspectEnabled: true
+  springDataAuditableRepositoryAspectEnabled: true
+
+application:
+  management:
+    &server_employee
+    port: 8877
+    host: localhost
+    contextPath: /employee
+  employee:
+
+  fileWarehouse:
+    &server_fileWarehouse
+    port: 8880
+    host: localhost
+    contextPath: /epbp
+# common part end
+
+# default settings
+server: *server_employee
+spring:
+  data:
+    h2:
+      uri: h2://localhost:27010/employee
+  mvc:
+    view:
+      prefix: /WEB-INF/jsp/
+      suffix: .jsp
+
+ribbon:
+  ServerListRefreshInterval: 1000
+
+endpoints:
+  health:
+    sensitive: false
+  restart:
+    enabled: true
+  shutdown:
+    enabled: true
+
+---
+# dev profile
+spring:
+  profiles: dev
+server:
+  port: 8879
+  host: localhost
+
+---
+# test profile
+spring:
+  profiles: test
+  data:
+    h2:
+      uri: mongodb://localhost:27017/employee
+  rabbitmq:
+    host: 192.168.111.10
+    port: 5672
+    virtualHost: /employee
+    username: test
+    password: test
+server:
+  port: 8882
+  host: localhost
+#application:
+#  management:
+#    host: 192.168.111.111
+#    port: 8887
+#  fileWarehouse:
+#    host: 192.168.111.111
+#    port: 8888
