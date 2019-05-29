@@ -1,6 +1,7 @@
 package pl.codecity.employees.service;
 
 import lombok.RequiredArgsConstructor;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import pl.codecity.employees.model.Employee;
 import pl.codecity.employees.repository.EmployeeRepository;
@@ -10,9 +11,10 @@ import java.util.Optional;
 
 @Service
 @RequiredArgsConstructor
-public class EmploeeServiceImpl {
+public class EmployeeServiceImpl {
 
-    private final EmployeeRepository repository;
+    @Autowired
+    private EmployeeRepository repository;
 
     public List<Employee> findAll(){
         return repository.findAll();
