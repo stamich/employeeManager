@@ -15,24 +15,22 @@ import java.util.Optional;
 
 @RestController
 @RequestMapping("/employee")
-@Slf4j
-@RequiredArgsConstructor
 public class EmployeeController {
 
     @Autowired
     private EmployeeServiceImpl employeeService;
 
-    @GetMapping
+    @GetMapping("/all")
     public ResponseEntity<List<Employee>> getAll(){
         return ResponseEntity.ok(employeeService.findAll());
     }
 
-    @PostMapping
+    @PostMapping("/add")
     public ResponseEntity create(@Valid @RequestBody Employee employee){
         return ResponseEntity.ok(employeeService.save(employee));
     }
 
-    @GetMapping
+    @GetMapping("/{id}")
     public ResponseEntity<Employee> getOneById(@PathVariable Long id){
         Optional<Employee> employees = employeeService.findOneById(id);
         if (!employees.isPresent()){
@@ -42,7 +40,7 @@ public class EmployeeController {
         return ResponseEntity.ok(employees.get());
     }
 
-    @PutMapping("/{id}")
+    @PutMapping("/update/{id}")
     public ResponseEntity<Employee> update(@PathVariable Long id, @Valid @RequestBody Employee employee) {
         if (!employeeService.findOneById(id).isPresent()) {
             //log.error("Id " + id + " is not existed.");
@@ -51,7 +49,7 @@ public class EmployeeController {
         return ResponseEntity.ok(employeeService.save(employee));
     }
 
-    @DeleteMapping("/{id}")
+    @DeleteMapping("/delete/{id}")
     public ResponseEntity delete(@PathVariable Long id) {
         if (!employeeService.findOneById(id).isPresent()) {
             //log.error("Id " + id + " is not existed");
