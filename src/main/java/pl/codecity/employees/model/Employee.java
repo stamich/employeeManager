@@ -35,8 +35,10 @@ public class Employee {
     private Integer salary;
 
     @CreationTimestamp
+    @ApiModelProperty(notes = "The creation date", required = true)
     private LocalDateTime createdAt;
 
     @UpdateTimestamp
+    @ApiModelProperty(notes = "The update date", required = true)
     private LocalDateTime updatedAt;
 }
