@@ -22,7 +22,7 @@ public class SwaggerConfiguration extends WebMvcConfigurationSupport {
         return new Docket(DocumentationType.SWAGGER_2)
                 .select()
                 .apis(RequestHandlerSelectors.basePackage("pl.codecity"))
-                .paths(regex("/user.*"))
+                .paths(regex("/employee.*"))
                 .build()
                 .apiInfo(metadata());
     }

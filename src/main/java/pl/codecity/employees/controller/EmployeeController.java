@@ -1,5 +1,6 @@
 package pl.codecity.employees.controller;
 
+import io.swagger.annotations.ApiOperation;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -20,16 +21,18 @@ public class EmployeeController {
     @Autowired
     private EmployeeServiceImpl employeeService;
 
+    @ApiOperation(value = "Getting all employees")
     @GetMapping("/all")
     public ResponseEntity<List<Employee>> getAll(){
         return ResponseEntity.ok(employeeService.findAll());
     }
-
+    @ApiOperation(value = "Adding one employee")
     @PostMapping("/add")
     public ResponseEntity create(@Valid @RequestBody Employee employee){
         return ResponseEntity.ok(employeeService.save(employee));
     }
 
+    @ApiOperation(value = "Getting one employee")
     @GetMapping("/{id}")
     public ResponseEntity<Employee> getOneById(@PathVariable Long id){
         Optional<Employee> employees = employeeService.findOneById(id);
@@ -40,6 +43,7 @@ public class EmployeeController {
         return ResponseEntity.ok(employees.get());
     }
 
+    @ApiOperation(value = "Updating employee")
     @PutMapping("/update/{id}")
     public ResponseEntity<Employee> update(@PathVariable Long id, @Valid @RequestBody Employee employee) {
         if (!employeeService.findOneById(id).isPresent()) {
@@ -49,6 +53,7 @@ public class EmployeeController {
         return ResponseEntity.ok(employeeService.save(employee));
     }
 
+    @ApiOperation(value = "Deleting employees")
     @DeleteMapping("/delete/{id}")
     public ResponseEntity delete(@PathVariable Long id) {
         if (!employeeService.findOneById(id).isPresent()) {
